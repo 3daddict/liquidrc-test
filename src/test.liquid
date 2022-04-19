@@ -1,0 +1,115 @@
+<article class="py-8" itemscope itemtype="http://schema.org/BlogPosting">
+  {%- for block in section.blocks -%}
+    {%- case block.type -%}
+      {%- when 'article_title' -%}
+        <div class="flex items-center justify-center">
+          <div class="max-w-7xl">
+            <a href="{{ blog.url }}" class="text-base font-bold text-gray-500 uppercase hover:text-gray-900">{{ blog.title }}</a>
+            <h1 class="text-4xl font-medium md:text-6xl" itemprop="headline">
+              {{ article.title }}
+            </h1>
+          </div>
+        </div>
+      {%- when 'article_author' -%}
+        <div
+          class="flex items-center justify-center"
+          itemscope
+          itemtype="http://schema.org/Person">
+          <div class="text-center m-w-7xl">
+            {%- if section.settings.enable_author -%}
+              <small itemprop="author">{{ article.author }}</small>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- when 'article_published_date' -%}
+        <div class="flex items-center justify-center">
+          <div class="text-center m-w-7xl">
+            {%- if section.settings.enable_published_date -%}
+              <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}" itemprop="datePublished dateCreated">
+                {{ article.published_at | date: format: 'on_date' }}
+              </time>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- when 'article_featured_image' -%}
+        <div
+          class="mx-2 my-4 overflow-hidden bg-blue-100 rounded-lg max-w-7xl md:mx-auto
+            md:rounded-none"
+          itemprop="image">
+          {%- if article.image != blank -%}
+            <img class="object-cover object-center w-full h-80 md:h-96" src="{{ article.image | image_url }}" alt="{{ article.image.alt }}" width="{{ article.image.width }}" height="{{ article.image.height }}" loading="lazy" />
+          {%- else -%}
+            {%- assign placeholder_image = 'lifestyle-2' -%}
+            {{ placeholder_image | placeholder_svg_tag: 'w-full h-80 md:h096 object-cover object-center p-5' }}
+          {%- endif -%}
+        </div>
+      {%- when 'article_content' -%}
+        <div class="flex items-center justify-center mx-6 lg:mx-auto">
+
+          <div class="max-w-4xl mt-2" itemprop="articleBody">
+            {{ article.content }}
+          </div>
+        </div>
+
+    {%- endcase -%}
+  {%- endfor -%}
+</article>
+
+<script type="application/ld+json">
+
+[36mLine: 2[0m
+[31m(empty line)[0m
+[31m[36mLine: 2[0m[0m
+[31m[31m(empty line)[0m[0m
+[31m[31m[36mLine: 1[0m[0m[0m
+[31m[31m[31m[36 mLine : 1 [[0m[0m[0m
+[31m[31m[31m        0 m [[0m[0m[0m
+[31m[31m[31m            31 m {[0m[0m[0m
+</script>
+
+{% schema %}
+{
+  "name": "Template Article",
+  "settings": [
+
+    {
+      "type": "checkbox",
+      "id": "enable_author",
+      "label": "Display Author Name",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_published_date",
+      "label": "Display Published Date",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "article_title",
+      "name": "Title",
+      "limit": 1
+    },
+    {
+      "type": "article_author",
+      "name": "Author",
+      "limit": 1
+    },
+    {
+      "type": "article_published_date",
+      "name": "Published Date",
+      "limit": 1
+    },
+    {
+      "type": "article_featured_image",
+      "name": "Thumbnail",
+      "limit": 1
+    },
+    {
+      "type": "article_content",
+      "name": "Content",
+      "limit": 1
+    }
+  ]
+} {% endschema %}
