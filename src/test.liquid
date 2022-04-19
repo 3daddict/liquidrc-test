@@ -56,22 +56,28 @@
 </article>
 
 <script type="application/ld+json">
-
-[36mLine: 2[0m
-[31m(empty line)[0m
-[31m[36mLine: 2[0m[0m
-[31m[31m(empty line)[0m[0m
-[31m[31m[36mLine: 1[0m[0m[0m
-[31m[31m[31m[36 mLine : 1 [[0m[0m[0m
-[31m[31m[31m        0 m [[0m[0m[0m
-[31m[31m[31m            31 m {[0m[0m[0m
+{
+  "@context": "http://schema.org/BlogPosting",
+  "@type": "BlogPosting",
+  "headline": {{ article.title | json }},
+  "articleBody": {{ article.content | strip_html | json }},{%- if article.exerpt != blank -%}"description" : {{ article.exerpt | strip_html | json }},{%- endif -%}{%- if article.image -%}"image" : [{{ article.image | img_url: "medium" | prepend: 'https:' | json }}],{%- endif -%}"datePublished": {{ article.published_at | date: format: "default" | json }},
+  "dateCreated": {{ article.created_at | date: format: "default" | json }},
+  "author": {
+    "@type": "Person",
+    "name": {{ article.author | json }}
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": {{ shop.name | json }}
+  }
+}
 </script>
 
 {% schema %}
 {
   "name": "Template Article",
   "settings": [
-
+  
     {
       "type": "checkbox",
       "id": "enable_author",

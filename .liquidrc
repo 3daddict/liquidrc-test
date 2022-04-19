@@ -56,6 +56,13 @@
     "preserve": 0,
     "braces": true,
     "brace_block": false,
-    "no_semicolon": true
+    "no_semicolon": true,
+    "tags": [
+      {
+        "type": "html",
+        "begin": "script type=\"application/ld+json\"",
+        "end": "script"
+      }
+    ]
   }
 }
