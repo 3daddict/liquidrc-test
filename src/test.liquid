@@ -45,32 +45,33 @@
         </div>
       {%- when 'article_content' -%}
         <div class="flex items-center justify-center mx-6 lg:mx-auto">
-
           <div class="max-w-4xl mt-2" itemprop="articleBody">
             {{ article.content }}
           </div>
         </div>
-
     {%- endcase -%}
   {%- endfor -%}
 </article>
 
-<script type="application/ld+json">
-{
-  "@context": "http://schema.org/BlogPosting",
-  "@type": "BlogPosting",
-  "headline": {{ article.title | json }},
-  "articleBody": {{ article.content | strip_html | json }},{%- if article.exerpt != blank -%}"description" : {{ article.exerpt | strip_html | json }},{%- endif -%}{%- if article.image -%}"image" : [{{ article.image | img_url: "medium" | prepend: 'https:' | json }}],{%- endif -%}"datePublished": {{ article.published_at | date: format: "default" | json }},
-  "dateCreated": {{ article.created_at | date: format: "default" | json }},
-  "author": {
-    "@type": "Person",
-    "name": {{ article.author | json }}
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": {{ shop.name | json }}
-  }
-}
+<script {{ 'application/ld+json' }}>
+  {
+    "@context": "http://schema.org/BlogPosting",
+    "@type": "BlogPosting",
+    "headline": "{{ article.title }}",
+    "articleBody": "{{ article.content | strip_html }}",
+    "description": "{{ article.exerpt | strip_html | default: ' ' }}",
+    "datePublished": "{{ article.published_at | date: format: 'default' }}",
+    "dateCreated": "{{ article.created_at | date: format: 'default' }}",
+    "image": [{% if article.image %}"{{ article.image | img_url: 'medium' | prepend: 'https:' }}"{% endif %}],
+    "author": {
+      "@type": "Person",
+      "name": "{{ article.author }}"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "{{ shop.name }}"
+    }
+  };
 </script>
 
 {% schema %}

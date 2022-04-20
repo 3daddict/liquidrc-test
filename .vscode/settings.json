@@ -5,7 +5,7 @@
   "files.associations": {
     "*.liquid": "html"
   },
- "[html]": {
+  "[html]": {
     "editor.defaultFormatter": "sissel.shopify-liquid"
   }
 }
